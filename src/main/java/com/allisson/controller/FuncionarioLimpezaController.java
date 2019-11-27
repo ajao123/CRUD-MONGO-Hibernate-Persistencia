@@ -7,8 +7,16 @@ import java.util.Scanner;
 
 import org.bson.types.ObjectId;
 
+import com.allisson.dao.DepartamentoDAO;
+import com.allisson.dao.DependenteDAO;
 import com.allisson.dao.FuncionarioLimpezaDAO;
+import com.allisson.dao.PesquisadorDAO;
+import com.allisson.dao.mongodb.DepartamentoMongoDBDAO;
+import com.allisson.dao.mongodb.DependenteMongoDBDAO;
+import com.allisson.model.Departamento;
+import com.allisson.model.Dependente;
 import com.allisson.model.FuncionarioLimpeza;
+import com.allisson.model.Pesquisador;
 
 public class FuncionarioLimpezaController {
 	
@@ -52,6 +60,22 @@ private static Scanner sc1;
 		entidade.setCargo(cargo);
 		entidade.setJornadaTrabalho(jornadaTrabalho);
 		
+		DepartamentoDAO daoD = new DepartamentoMongoDBDAO();
+		List<Departamento> list = daoD.findAll();
+		int pos = 0;
+		for(Departamento dep : list) {	
+			System.out.println("Departamento "+(pos+1));
+			System.out.println("Id: " + dep.getId());
+			System.out.println("Nome: " + dep.getNome());
+			pos++;
+		}
+		daoD.close();
+		
+		System.out.println("Digite o departamento:");
+		Integer posicao = sc1.nextInt();
+		
+		entidade.setIdDepartamento(list.get(posicao-1).getId());
+		
 		dao.insert(entidade);
 		dao.close();
 
@@ -59,6 +83,9 @@ private static Scanner sc1;
 
 	public static void getAll(FuncionarioLimpezaDAO dao) {
 		List<FuncionarioLimpeza> list = dao.findAll();
+		
+		DepartamentoDAO daoD = new DepartamentoMongoDBDAO();
+		
 		for(FuncionarioLimpeza entidade : list) {
 			System.out.println("\n \nId: " + entidade.getId());
 			System.out.println("Nome: " + entidade.getNome());
@@ -66,6 +93,8 @@ private static Scanner sc1;
 			System.out.println("Sexo: " + entidade.getSexo());
 			System.out.println("Salario: "+entidade.getSalario());
 			System.out.println("Cargo: "+entidade.getCargo());
+			Departamento departamento = daoD.find(new ObjectId(entidade.getIdDepartamento().toString()));
+			System.out.println("Departamento: "+departamento.getNome());
 			System.out.println("Jornada de Trabalho: "+entidade.getJornadaTrabalho());
 		
 		}
@@ -73,9 +102,14 @@ private static Scanner sc1;
 	}
 
 	public static void delete(FuncionarioLimpezaDAO dao) {
+		
 		int i = 0;
 		sc1 = new Scanner(System.in);
+		
 		List<FuncionarioLimpeza> list = dao.findAll();
+		DependenteDAO daoDependente = new DependenteMongoDBDAO();
+		List<Dependente> dependentes = daoDependente.findAll();
+		
 		for(FuncionarioLimpeza entidade : list) {
 			System.out.println("\n Funcionario "+(i+1)+"\n");
 			System.out.println("Id: " + entidade.getId());
@@ -93,8 +127,75 @@ private static Scanner sc1;
 		int posicao = sc1.nextInt();
 		System.out.println(list.get(posicao-1).getId());
 		
+		for(Dependente dependente : dependentes) {
+			
+			if(new ObjectId(list.get(posicao-1).getId().toString()).equals(dependente.getIdFuncionario())) {
+				
+				daoDependente.delete(new ObjectId(dependente.getId().toString()));
+			
+			}
+		}
+		
+		
 		dao.delete(new ObjectId(list.get(posicao-1).getId().toString()));
+		daoDependente.close();
 		dao.close();
+		
+	}
+	
+	public static void find(FuncionarioLimpezaDAO dao) {
+		
+		DependenteDAO daoDependente = new DependenteMongoDBDAO();
+		DepartamentoDAO daoDepartamento = new DepartamentoMongoDBDAO();
+		
+		int pos = 0;
+		sc1 = new Scanner(System.in);
+		List<FuncionarioLimpeza> list = dao.findAll();
+		List<Dependente> dependentes = daoDependente.findAll();
+		
+		for(FuncionarioLimpeza entidade : list) {
+			System.out.println("\n FuncionarioLimpeza "+(pos+1)+"\n");
+			System.out.println("Id: " + entidade.getId());
+			System.out.println("Nome: " + entidade.getNome());
+			pos++;
+		}
+		
+		
+		
+		
+		System.out.println("Digite o id do FuncionarioLimpeza desejado:");
+		int posicao = sc1.nextInt();
+		FuncionarioLimpeza FuncionarioLimpeza = dao.find(new ObjectId(list.get(posicao-1).getId().toString()));
+		Departamento departamento = daoDepartamento.find(new ObjectId(FuncionarioLimpeza.getIdDepartamento().toString()));
+
+
+		System.out.println("Id: " + FuncionarioLimpeza.getId());
+		System.out.println("Nome: " + FuncionarioLimpeza.getNome());
+		System.out.println("Endereco: " + FuncionarioLimpeza.getEndereco());
+		System.out.println("Sexo: " + FuncionarioLimpeza.getSexo());
+		System.out.println("Salario: "+FuncionarioLimpeza.getSalario());
+		System.out.println("Cargo: "+FuncionarioLimpeza.getCargo());
+		System.out.println("Jornada de Trabalho: "+FuncionarioLimpeza.getJornadaTrabalho());
+		System.out.println("Departamento: "+departamento.getNome());
+		
+		System.out.println("\n \t Dependentes");
+		for(Dependente dependente : dependentes) {
+			
+			if(FuncionarioLimpeza.getId().equals(dependente.getIdFuncionario())) {
+				
+				System.out.println("\n\nId: " + dependente.getId());
+				System.out.println("Nome: " + dependente.getNome());
+				System.out.println("Sexo: " + dependente.getSexo());
+				System.out.println("Data de Nascimento: " + dependente.getDataNascimento());
+				System.out.println("Grau de Parentesco: " + dependente.getGrauParentesco());
+				
+			}
+		}
+		
+		daoDepartamento.close();
+		daoDependente.close();
+		dao.close();
+		
 	}
 	
 }

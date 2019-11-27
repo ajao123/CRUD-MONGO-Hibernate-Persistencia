@@ -15,8 +15,8 @@ public class Pesquisador extends Funcionario{
 	}
 
 	public Pesquisador(ObjectId id, String nome, String endereco, String sexo, LocalDate dataNascimento,
-			Double salario, String areaAtuacao) {
-		super(id, nome, endereco, sexo, dataNascimento, salario);
+			Double salario, String areaAtuacao, ObjectId idDepartamento) {
+		super(id, nome, endereco, sexo, dataNascimento, salario, idDepartamento);
 		
 		this.areaAtuacao = areaAtuacao;
 	}
@@ -39,6 +39,7 @@ public class Pesquisador extends Funcionario{
 					+ "\"endereco\" : \""+endereco+"\", "
 					+ "\"dataNascimento\" : \""+dataNascimento+"\", "
 					+ "\"sexo\" : \""+sexo+"\", "
+					+ "\"idDepartamento\" : \""+idDepartamento+"\", "
 					+ "\"salario\" : \""+salario+"\"}";
 		return json;
 	}
@@ -57,8 +58,8 @@ public class Pesquisador extends Funcionario{
 		pesquisador.areaAtuacao = doc.getString("areaAtuacao");
 		pesquisador.salario = Double.parseDouble(doc.getString("salario"));
 		pesquisador.dataNascimento = LocalDate.now();
-		
-		
+		pesquisador.idDepartamento = new ObjectId(doc.getString("idDepartamento")); 
+				
 		return pesquisador;
 	}
 

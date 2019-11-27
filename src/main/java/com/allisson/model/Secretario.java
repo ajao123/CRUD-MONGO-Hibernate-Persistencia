@@ -16,8 +16,8 @@ public class Secretario extends Funcionario{
 	}
 
 	public Secretario(ObjectId id, String nome, String endereco, String sexo, LocalDate dataNascimento,
-			Double salario, String grauEscolaridade) {
-		super(id, nome, endereco, sexo, dataNascimento, salario);
+			Double salario, String grauEscolaridade, ObjectId idDepartamento) {
+		super(id, nome, endereco, sexo, dataNascimento, salario, idDepartamento);
 		
 		this.grauEscolaridade = grauEscolaridade;
 	}
@@ -38,7 +38,9 @@ public class Secretario extends Funcionario{
 					+ "\"endereco\" : \""+endereco+"\", "
 					+ "\"sexo\" : \""+sexo+"\", "
 					+ "\"dataNascimento\" : \""+dataNascimento+"\", "
+					+ "\"idDepartamento\" : \""+idDepartamento+"\", "
 					+ "\"salario\" : \""+salario+"\"}";
+		
 		return json;
 	}
 
@@ -55,6 +57,7 @@ public class Secretario extends Funcionario{
 		Secretario.grauEscolaridade  = doc.getString("grauEscolaridade");
 		Secretario.dataNascimento = LocalDate.now();
 		Secretario.salario = Double.parseDouble(doc.getString("salario"));
+		Secretario.idDepartamento = new ObjectId(doc.getString("idDepartamento")); 
 		
 		return Secretario;
 	}

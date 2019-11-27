@@ -13,13 +13,14 @@ public abstract class Funcionario {
 	protected String sexo;
 	protected LocalDate dataNascimento;
 	protected Double salario;
+	protected ObjectId idDepartamento;
 	public abstract String toJson();
 	
 	public Funcionario() {
 	}
 
 	public Funcionario(ObjectId id, String nome, String endereco, String sexo, LocalDate dataNascimento,
-			Double salario) {
+			Double salario, ObjectId idDepartamento) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -27,6 +28,7 @@ public abstract class Funcionario {
 		this.sexo = sexo;
 		this.dataNascimento = dataNascimento;
 		this.salario = salario;
+		this.idDepartamento = idDepartamento;
 	}
 	
 	
@@ -94,14 +96,21 @@ public abstract class Funcionario {
 	public Double getSalario() {
 		return salario;
 	}
-
-
-
+	
 	public void setSalario(Double salario) {
 		this.salario = salario;
 	}
 
 	
+	
+	public ObjectId getIdDepartamento() {
+		return idDepartamento;
+	}
+
+	public void setIdDepartamento(ObjectId idDepartamento) {
+		this.idDepartamento = idDepartamento;
+	}
+
 	public Document toDocument() {
 		return Document.parse(this.toJson());
 	}

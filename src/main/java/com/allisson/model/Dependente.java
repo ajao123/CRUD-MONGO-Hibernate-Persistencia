@@ -16,7 +16,7 @@ public class Dependente extends Bean{
 	private String sexo;
 	private LocalDate dataNascimento;
 	private String grauParentesco;
-	
+	private ObjectId idFuncionario;
 
 	private Funcionario funcionario;
 	
@@ -24,7 +24,7 @@ public class Dependente extends Bean{
 		super();
 	}
 
-	public Dependente(ObjectId id, String nome, String sexo, LocalDate dataNascimento, String grauParentesco) {
+	public Dependente(ObjectId id, String nome, String sexo, LocalDate dataNascimento, String grauParentesco, ObjectId idFuncionario) {
 		super(id);
 		this.nome = nome;
 		this.sexo = sexo;
@@ -73,12 +73,21 @@ public class Dependente extends Bean{
 	public void setFuncionario(Funcionario funcionario) {
 		this.funcionario = funcionario;
 	}
+	
+	public ObjectId getIdFuncionario() {
+		return idFuncionario;
+	}
+
+	public void setIdFuncionario(ObjectId idFuncionario) {
+		this.idFuncionario = idFuncionario;
+	}
 
 	@Override
 	public String toJson() {
 		String json = "{\"nome\" : \""+nome+"\", "
 				+ "\"sexo\" : \""+sexo+"\", "
 				+ "\"dataNascimento\" :\""+dataNascimento+"\", "
+				+ "\"idFuncionario\" : \""+idFuncionario+"\", "
 				+ "\"grauParentesco\" : \""+grauParentesco+"\"}";
 		return json;
 	}
@@ -94,6 +103,8 @@ public class Dependente extends Bean{
 		dependente.nome = doc.getString("nome");
 		dependente.sexo = doc.getString("sexo");
 		dependente.dataNascimento = LocalDate.parse(doc.getString("dataNascimento"), formatter);
+		dependente.idFuncionario = new ObjectId(doc.getString("idFuncionario")); 
+		dependente.grauParentesco = doc.getString("grauParentesco");
 		return dependente;
 	}
 	

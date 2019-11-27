@@ -15,8 +15,8 @@ public class FuncionarioLimpeza extends Funcionario{
 	}
 	
 	public FuncionarioLimpeza(ObjectId id, String nome, String endereco, String sexo, LocalDate dataNascimento,
-			Double salario, String cargo, String jornadaTrabalho) {
-		super(id, nome, endereco, sexo, dataNascimento, salario);
+			Double salario, String cargo, String jornadaTrabalho, ObjectId idDepartamento) {
+		super(id, nome, endereco, sexo, dataNascimento, salario, idDepartamento);
 		
 		this.cargo = cargo;
 		this.jornadaTrabalho = jornadaTrabalho;
@@ -48,6 +48,7 @@ public class FuncionarioLimpeza extends Funcionario{
 					+ "\"endereco\" : \""+endereco+"\", "
 					+ "\"sexo\" : \""+sexo+"\", "
 					+ "\"dataNascimento\" : \""+dataNascimento+"\", "
+					+ "\"idDepartamento\" : \""+idDepartamento+"\", "
 					+ "\"salario\" : \""+salario+"\"}";
 		return json;
 	}
@@ -67,6 +68,7 @@ public class FuncionarioLimpeza extends Funcionario{
 		FuncionarioLimpeza.sexo  = doc.getString("sexo");
 		FuncionarioLimpeza.dataNascimento = LocalDate.now();
 		FuncionarioLimpeza.salario = Double.parseDouble(doc.getString("salario"));
+		FuncionarioLimpeza.idDepartamento = new ObjectId(doc.getString("idDepartamento")); 
 		
 		return FuncionarioLimpeza;
 	}

@@ -7,15 +7,17 @@ public class Projeto extends Bean{
 
 	private String nome;
 	private String periodoTempo;
+	private ObjectId idDepartamento;
 	
 	public Projeto() {
 		super();
 	}
 
-	public Projeto(ObjectId id, String nome, String periodoTempo) {
+	public Projeto(ObjectId id, String nome, String periodoTempo, ObjectId idDepartamento) {
 		super(id);
 		this.nome = nome;
 		this.periodoTempo = periodoTempo;
+		this.idDepartamento = idDepartamento;
 	}
 
 	public String getNome() {
@@ -34,9 +36,17 @@ public class Projeto extends Bean{
 		this.periodoTempo = periodoTempo;
 	}
 
+	public ObjectId getIdDepartamento() {
+		return idDepartamento;
+	}
+
+	public void setIdDepartamento(ObjectId idDepartamento) {
+		this.idDepartamento = idDepartamento;
+	}
+
 	@Override
 	public String toJson() {
-		String json = "{\"nome\" : \""+nome+"\", \"periodoTempo\" : \""+periodoTempo+"\"}";
+		String json = "{\"nome\" : \""+nome+"\", \"idDepartamento\":\""+idDepartamento+"\", \"periodoTempo\" : \""+periodoTempo+"\"}";
 		return json;
 	}
 	
@@ -48,6 +58,7 @@ public class Projeto extends Bean{
 		projeto.id = doc.getObjectId("_id");
 		projeto.nome = doc.getString("nome");
 		projeto.periodoTempo = doc.getString("periodoTempo");
+		projeto.idDepartamento = new ObjectId(doc.getString("idDepartamento")); 
 		
 		return projeto;
 	}

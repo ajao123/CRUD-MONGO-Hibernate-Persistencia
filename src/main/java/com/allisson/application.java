@@ -30,9 +30,6 @@ public class application {
 	public static void main(String[] args) {
 		
 		
-		UserDAO dao = new UserMongoDBDAO();
-		dao04DeleteById(dao);
-		
 
 		Scanner sc1;
 		Boolean sair = true;
@@ -44,7 +41,7 @@ public class application {
     	
     	while(sair) {
     		sc1 = new Scanner(System.in); 
-    		try {
+    		
     			System.out.println(" 23 - Ver o menu novamente");
         		opcao = sc1.nextInt();
         		
@@ -84,12 +81,15 @@ public class application {
         				
         				if(opcao == 1) {
         						
+        					PesquisadorController.find(new PesquisadorMongoDBDAO());
         					
         				}else if(opcao == 2) {
         					
+        					SecretarioController.find(new SecretarioMongoDBDAO());
         					
         				}else if(opcao == 3){
         					
+        					FuncionarioLimpezaController.find(new FuncionarioLimpezaMongoDBDAO());
         					
         				}else {
         					System.out.println("Opcao invalida.");
@@ -171,6 +171,7 @@ public class application {
             			break;
             			
         			case 10:
+        				ProjetoController.find(new ProjetoMongoDBDAO());
         				break;
         				
         			case 11:
@@ -185,7 +186,7 @@ public class application {
         				break;
         				
         			case 14:
-        				
+        				TrabalhoController.find(new TrabalhoMongoDBDAO());
         				break;
         				
         			case 15:
@@ -201,6 +202,7 @@ public class application {
         				DependenteController.insert(new DependenteMongoDBDAO());
         				break;
         			case 18:
+        				DependenteController.find(new DependenteMongoDBDAO());
         				break;
         			case 19:
         				DependenteController.delete(new DependenteMongoDBDAO());
@@ -256,42 +258,37 @@ public class application {
         				
         		
         		}
-    		}catch(Exception e) {
-    			System.out.println("\n \n" + "\t \t" +"Erro: Opcao Invalida."+"\n \n");
-    		}
+    	
     	}
 
 	}
 	
 	public static void printMenu() {
-		System.out.println(" f1  - Adicionar Funcionario");
+		System.out.println(" 1  - Adicionar Funcionario");
 		System.out.println(" 2  - Buscar Funcionario");
-		System.out.println(" f3  - Deletar Funcionario");
-		System.out.println(" f4  - Buscar Funcionarios");
-		System.out.println(" f5  - Adicionar Departamento");
+		System.out.println(" 3  - Deletar Funcionario");
+		System.out.println(" 4  - Buscar Funcionarios");
+		System.out.println(" 5  - Adicionar Departamento");
 		System.out.println(" 6  - Buscar Departamento");
-		System.out.println(" f7  - Deletar Departamento");
-		System.out.println(" f8  - Buscar Departamentos");
-		System.out.println(" f9  - Adicionar Projeto");
+		System.out.println(" 7  - Deletar Departamento");
+		System.out.println(" 8  - Buscar Departamentos");
+		System.out.println(" 9  - Adicionar Projeto");
 		System.out.println(" 10 - Buscar Projeto");
-		System.out.println(" f11 - Deletar Projeto");
-		System.out.println(" f12 - Buscar Projetos");
-		System.out.println(" f13 - Adicionar Trabalho");
+		System.out.println(" 11 - Deletar Projeto");
+		System.out.println(" 12 - Buscar Projetos");
+		System.out.println(" 13 - Adicionar Trabalho");
 		System.out.println(" 14 - Buscar Trabalho");
-		System.out.println(" f15 - Deletar Trabalho");
-		System.out.println(" f16 - Buscar Trabalhos");
-		System.out.println(" f17 - Adicionar Dependente");
+		System.out.println(" 15 - Deletar Trabalho");
+		System.out.println(" 16 - Buscar Trabalhos");
+		System.out.println(" 17 - Adicionar Dependente");
 		System.out.println(" 18 - Buscar Dependente");
-		System.out.println(" f19 - Deletar Dependente");
-		System.out.println(" f20 - Buscar Dependentes");
-		System.out.println(" 21 - Atualizar");
-		System.out.println(" 22 - Sair do sistema");
+		System.out.println(" 19 - Deletar Dependente");
+		System.out.println(" 20 - Buscar Dependentes");
+		System.out.println(" 21 - Sair do sistema");
 	}
-	public static void dao04DeleteById(UserDAO dao) {
-		dao.delete(new ObjectId("5dd54392f707151a615480ad"));
-	}	
 	
 	
+
 	
 	
 	
